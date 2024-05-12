@@ -1,7 +1,7 @@
-import Card from "../../components/card/Card";
+import LayoutPage from "../../components";
 
 function HomePage() {
-  return <Card />;
+  return <LayoutPage />;
 }
 
 export default HomePage;
