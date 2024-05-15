@@ -1,55 +1,32 @@
-// function InputInformation() {
-//   return (
-//     <div>
-//       <div>
-//         <p className="font-semibold">first name:</p>
-//         <input
-//           type="text"
-//           className="border w-full shadow-lg my-1 p-1 outline-none"
-//           placeholder="first name"
-//           onChange={(e) => setFirstName(e.target.value)}
-//         />
-//       </div>
-//       <div>
-//         <p className="font-semibold">last name:</p>
-//         <input
-//           type="text"
-//           className="border w-full shadow-lg my-1 p-1 outline-none"
-//           placeholder="last name"
-//           onChange={(e) => setLastName(e.target.value)}
-//         />
-//       </div>
-//       <div>
-//         <p className="font-semibold">phone:</p>
-//         <input
-//           type="text"
-//           className="border w-full shadow-lg my-1 p-1 outline-none"
-//           placeholder="phone"
-//           onChange={(e) => setPhoneNumber(e.target.value)}
-//         />
-//       </div>
-//       <div>
-//         <p className="font-semibold">group:</p>
-//         <select
-//           className="border w-full shadow-lg my-1 p-1 outline-none"
-//           onChange={(e) => setGroups(e.target.value)}
-//         >
-//           <option value="friend">friend</option>
-//           <option value="family">family</option>
-//           <option value="colleague">colleague</option>
-//         </select>
-//       </div>
-//       <div>
-//         <p className="font-semibold">email:</p>
-//         <input
-//           type="text"
-//           className="border w-full shadow-lg my-1 p-1 outline-none"
-//           placeholder="email"
-//           onChange={(e) => setEmail(e.target.value)}
-//         />
-//       </div>
-//     </div>
-//   );
-// }
+import { useState } from "react";
 
-// export default InputInformation;
+interface Props {
+  topic: string;
+  setValue: React.Dispatch<React.SetStateAction<string>>;
+  showWarning: boolean;
+  type: string;
+}
+
+function InputInformation({ topic, setValue, showWarning, type }: Props) {
+  const [inputValue, setInputValue] = useState("");
+
+  return (
+    <div>
+      <p className="font-semibold">{topic}:</p>
+      <input
+        type={type}
+        className="border w-full shadow-lg my-1 p-1 outline-none"
+        placeholder={`${topic} ...`}
+        onChange={(e) => {
+          setInputValue(e.target.value);
+          setValue(e.target.value);
+        }}
+      />
+      {showWarning && inputValue === "" && (
+        <p className="text-red-500">please enter the {topic}</p>
+      )}
+    </div>
+  );
+}
+
+export default InputInformation;

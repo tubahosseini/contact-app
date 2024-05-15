@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import AddButton from "./addButton/AddButton";
-import Card from "./card/Card";
 import Header from "./header/Header";
+import InputInformation from "./inputInformation/InputInformation";
+import Card from "./card/Card";
 
 interface Props {
   id: string;
@@ -17,21 +18,59 @@ function LayoutPage() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [groups, setGroups] = useState("friend");
+  const [groups, setGroups] = useState("");
   const [email, setEmail] = useState("");
   const [user, setUser] = useState<Props[]>([]);
   const [isChanged, setIsChanged] = useState(true);
+  const [showWarning, setShowWarning] = useState(false);
+
+  const topics = [
+    {
+      topic: "First name",
+      value: "firstName",
+      setValue: setFirstName,
+      type: "text",
+    },
+    {
+      topic: "Last name",
+      value: "lastName",
+      setValue: setLastName,
+      type: "text",
+    },
+    {
+      topic: "Phone number",
+      value: "phoneNumber",
+      setValue: setPhoneNumber,
+      type: "number",
+    },
+    {
+      topic: "Groups",
+      value: "groups",
+      setValue: setGroups,
+      type: "text",
+    },
+    {
+      topic: "Email",
+      value: "email",
+      setValue: setEmail,
+      type: "email",
+    },
+  ];
 
   function addHandler() {
-    axios.post("http://localhost:5000/users", {
-      id: Date.now(),
-      firstName: firstName,
-      lastName: lastName,
-      phoneNumber: phoneNumber,
-      groups: groups,
-      email: email,
-    });
-    setIsChanged(true);
+    if (!!firstName && !!lastName && !!phoneNumber && !!groups && !!email) {
+      axios.post("http://localhost:5000/users", {
+        id: Date.now(),
+        firstName: firstName,
+        lastName: lastName,
+        phoneNumber: phoneNumber,
+        groups: groups,
+        email: email,
+      });
+      setIsChanged(true);
+    } else {
+      setShowWarning(true);
+    }
   }
 
   useEffect(() => {
@@ -53,55 +92,18 @@ function LayoutPage() {
       <div className="grid grid-cols-2 gap-2">
         <div className="bg-purple-200 rounded-lg shadow-md p-3">
           <div>
-            <div className="my-2">
-              <p className="font-semibold">first name:</p>
-              <input
-                type="text"
-                className="border w-full shadow-lg my-1 p-1 outline-none"
-                placeholder="first name"
-                onChange={(e) => setFirstName(e.target.value)}
-              />
-            </div>
-            <div className="my-2">
-              <p className="font-semibold">last name:</p>
-              <input
-                type="text"
-                className="border w-full shadow-lg my-1 p-1 outline-none"
-                placeholder="last name"
-                onChange={(e) => setLastName(e.target.value)}
-              />
-            </div>
-            <div className="my-1">
-              <p className="font-semibold">phone:</p>
-              <input
-                type="number"
-                className="border w-full shadow-lg my-1 p-1 outline-none"
-                placeholder="phone"
-                onChange={(e) => setPhoneNumber(e.target.value)}
-              />
-            </div>
-            <div className="my-2">
-              <p className="font-semibold">group:</p>
-              <select
-                className="border w-full shadow-lg my-1 p-1 outline-none"
-                onChange={(e) => setGroups(e.target.value)}
-              >
-                <option value="friend">friend</option>
-                <option value="family">family</option>
-                <option value="colleague">colleague</option>
-              </select>
-            </div>
-            <div className="my-2">
-              <p className="font-semibold">email:</p>
-              <input
-                type="text"
-                className="border w-full shadow-lg my-1 p-1 outline-none"
-                placeholder="email"
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
+            {topics.map((item) => {
+              return (
+                <InputInformation
+                  topic={item.topic}
+                  setValue={item.setValue}
+                  showWarning={showWarning}
+                  type={item.type}
+                />
+              );
+            })}
           </div>
-          <AddButton addHandler={addHandler} />
+          <AddButton onClick={addHandler} />
         </div>
         <div className="bg-pink-200 grid gap-2 rounded-lg p-3 h-[450px] overflow-auto shadow-md lg:grid-cols-2">
           {user.map((item) => {
