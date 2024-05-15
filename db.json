@@ -1,28 +1,5 @@
 {
   "users": [
-    {
-      "id": 1715561623054,
-      "firstName": "طوبی",
-      "lastName": "حسینی",
-      "phoneNumber": "09365581275",
-      "groups": "family",
-      "email": "tuba"
-    },
-    {
-      "id": 1715561897393,
-      "firstName": "mona",
-      "lastName": "shoomali",
-      "phoneNumber": "09177213212",
-      "groups": "colleague",
-      "email": "mona"
-    },
-    {
-      "id": 1715622933951,
-      "firstName": "arman",
-      "lastName": "rezaei",
-      "phoneNumber": "09954731287",
-      "groups": "",
-      "email": "arman"
-    }
+
   ]
 }
