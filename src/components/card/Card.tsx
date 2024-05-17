@@ -7,12 +7,23 @@ interface Props {
   phoneNumber: number;
   groups: string;
   email: string;
+  deleteHandler: () => void;
+  editHandler: () => void;
 }
 
-function Card({ firstName, lastName, phoneNumber, groups, email }: Props) {
+function Card({
+  firstName,
+  lastName,
+  phoneNumber,
+  groups,
+  email,
+  deleteHandler,
+  editHandler,
+}: Props) {
+
   return (
     <div className="bg-white p-5 flex justify-between flex-col rounded-lg shadow-lg h-[200px]">
-      <div className="">
+      <div>
         <div className="flex gap-1">
           <p className="font-semibold">Name: </p>
           <span>{firstName + " " + lastName}</span>
@@ -31,8 +42,8 @@ function Card({ firstName, lastName, phoneNumber, groups, email }: Props) {
         </div>
       </div>
       <div className="ml-auto">
-        <RenameButton />
-        <DeleteButton />
+        <RenameButton editHandler={editHandler} />
+        <DeleteButton deleteHandler={deleteHandler} />
       </div>
     </div>
   );
