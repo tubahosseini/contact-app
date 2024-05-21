@@ -17,7 +17,6 @@ interface Props {
   deleteHandler: (id: string) => void;
 }
 
-
 function LayoutPage() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -28,7 +27,7 @@ function LayoutPage() {
   const [isChanged, setIsChanged] = useState(true);
   const [showWarning, setShowWarning] = useState(false);
   const [textButton, setTextButton] = useState("Add");
-  const [resData, setResData] = useState({});
+  const [resData, setResData] = useState<Record<string,string | number>>({});
 
   const topics = [
     {
@@ -80,6 +79,11 @@ function LayoutPage() {
         groups: groups,
         email: email,
       });
+      setFirstName("");
+      setLastName("");
+      setPhoneNumber("");
+      setGroups("");
+      setEmail("");
       setIsChanged(true);
     } else if (
       !!firstName &&
@@ -87,17 +91,23 @@ function LayoutPage() {
       !!phoneNumber &&
       !!groups &&
       !!email &&
-      Object.keys(resData).length !== 0
+      Object.keys(resData).length !== 0 &&
+      textButton === "Save Changes"
     ) {
-      
-      axios.patch(`${BASE_URL}users/${resData.id}`, {
+      axios.patch(`${BASE_URL}users/${resData?.id}`, {
         firstName: firstName,
         lastName: lastName,
         phoneNumber: phoneNumber,
         groups: groups,
         email: email,
       });
+      setFirstName("");
+      setLastName("");
+      setPhoneNumber("");
+      setGroups("");
+      setEmail("");
       setIsChanged(true);
+      setTextButton("Add");
     } else {
       setShowWarning(true);
     }
@@ -143,10 +153,10 @@ function LayoutPage() {
     setGroups(res.data.groups);
     setEmail(res.data.email);
     setResData(res.data);
-    
+    console.log(res.data);
+
     setTextButton("Save Changes");
   }
-
 
   return (
     <div>
